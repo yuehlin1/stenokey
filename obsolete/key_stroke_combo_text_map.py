@@ -1,0 +1,1 @@
+keystroke_combo_text_map = {("f", "n"):"function", ("n", "r"):"return"}
