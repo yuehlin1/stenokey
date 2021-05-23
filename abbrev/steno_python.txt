@@ -1,3 +1,4 @@
 rn return
 sf self
 py python
+ifn if __name__ == "__main__":
