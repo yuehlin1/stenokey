@@ -1,8 +1,6 @@
-from re import I
 import keyboard as kb
 import time
 import os
-from typing import Dict
 
 # changelog : Liukey functionality removed for simplicity
 
@@ -15,8 +13,9 @@ class AbbrevLoader():
         self.liu_dict = dict()
         self.steno_dict = dict()
 
-    def load(self):
-        os.chdir("abbrev")
+    def load(self, file_dir='abbrev'):
+        current_dir = os.getcwd()
+        os.chdir(file_dir)
         files = os.listdir()
         for file in files:
             if file.startswith("steno"):
@@ -24,11 +23,11 @@ class AbbrevLoader():
             elif file.startswith("liu"):
                 abbrev_type = "liu"
             else:
-                raise Exception("abbrev_type not understood")
+                raise Exception("file abbrev_type not understood")
             with open(file, "r", encoding='utf-8') as f:
                 for line in f:
                     self.add_abbrev(line, abbrev_type)
-        os.chdir("..")
+        os.chdir(current_dir)
     
     def add_abbrev(self, line, abbrev_type):
         line = line.replace('\n', '')
@@ -74,10 +73,12 @@ class StenokeyMatcher():
 class KeyboardSituation:
     VALID_NAME = set('1234567890-=qwertyuiop[]asdfghjkl;\'zxcvbnm,./\\')
     VALID_NAME.add("space")
+    STENO_DICT = dict()
+    
     
     def __init__(self, steno_dict):
         self.event_queue = []
-        self.steno_dict = steno_dict
+        self.STENO_DICT = steno_dict
     
     def __call__(self, kbe: kb.KeyboardEvent):
         if kbe.name in self.VALID_NAME:
@@ -85,7 +86,7 @@ class KeyboardSituation:
             
         if self.get_n_key_pressed() == 0:
             sm = StenokeyMatcher(self.event_queue)
-            msg = sm.match(self.steno_dict)
+            msg = sm.match(self.STENO_DICT)
             kb.write(msg)
             self.event_queue = []
     
@@ -108,8 +109,5 @@ def main():
     
 
 if __name__ == "__main__":
-    l = []
-    try:
-        main()
-    except KeyboardInterrupt:
-        print(l)
+    main()
+
