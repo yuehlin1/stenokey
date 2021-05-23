@@ -76,9 +76,8 @@ class KeyboardSituation:
     STENO_DICT = dict()
     
     
-    def __init__(self, steno_dict):
+    def __init__(self):
         self.event_queue = []
-        self.STENO_DICT = steno_dict
     
     def __call__(self, kbe: kb.KeyboardEvent):
         if kbe.name in self.VALID_NAME:
@@ -103,7 +102,8 @@ def main():
     av = AbbrevLoader()
     av.load()
     STENO_DICT = av.steno_dict
-    ks = KeyboardSituation(STENO_DICT)
+    ks = KeyboardSituation()
+    ks.STENO_DICT = STENO_DICT
     kb.hook(ks)
     time.sleep(50)
     
