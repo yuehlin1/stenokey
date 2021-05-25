@@ -1,6 +1,9 @@
 import keyboard
 import time
 import os
+import logging
+
+logging.basicConfig(level=logging.DEBUG)
 
 # changelog : Liukey functionality removed for simplicity
 
@@ -51,42 +54,24 @@ class StenokeyMatcher():
         self.abbrev = ''.join(keys_pressed)
         
     def get_backspaces(self):
+        logging.debug(f"{len(self.abbrev)} number of backspaces sent.")
         return '\b'*len(self.abbrev)
     
     def get_full_text(self, steno_dict):
         return steno_dict[self.abbrev]
         
     def match(self, steno_dict):
-        # keys_pressed = sorted(set(map(lambda kbe: kbe.name, self.event_queue)))
-        # abbrev = ''.join(keys_pressed)
         abbrev = self.abbrev
         if abbrev in steno_dict.keys():
-            # return '\b'*len(abbrev)+steno_dict[abbrev]
             return self.get_backspaces() + self.get_full_text(steno_dict)
         else:
             return ''
-    
-    # def is_triggered(self):
-    #     return self.get_n_key_pressed() == 0
-        
-        
-    # def get_n_key_pressed(self):
-    #     n = 0
-    #     for kbe in self.event_queue:
-    #         if kbe.event_type == "down":
-    #             n+=1
-    #         elif kbe.event_type == "up":
-    #             n-=1
-    #         else:
-    #             raise Exception("Event type not up nor down")
-    #     return n
-    
+
     
 class KeyboardSituation:
     VALID_NAME = set('1234567890-=qwertyuiop[]asdfghjkl;\'zxcvbnm,./\\')
     VALID_NAME.add("space")
     STENO_DICT = dict()
-    
     
     def __init__(self):
         self.event_queue = []
@@ -98,6 +83,7 @@ class KeyboardSituation:
         if self.get_n_key_pressed() == 0:
             sm = StenokeyMatcher(self.event_queue)
             msg = sm.match(self.STENO_DICT)
+            # backspaces = sm.get_backspaces()
             keyboard.write(msg)
             self.event_queue = []
     
@@ -109,19 +95,24 @@ class KeyboardSituation:
             else:
                 n+=1
         return n
+    
+def my_func(kbe):
+    print(kbe)
         
-def main(on_test=None):
+def main(wait_for=5):
     av = AbbrevLoader()
     av.load()
     STENO_DICT = av.steno_dict
     ks = KeyboardSituation()
     ks.STENO_DICT = STENO_DICT
-    keyboard.hook(ks)
-    if on_test:
-        on_test(ks)
-    time.sleep(50)
+    time.sleep(wait_for)
     
 
 if __name__ == "__main__":
-    main()
+    import sys
+    try:
+        wait_for = int(sys.argv[1])
+    except IndexError:
+        wait_for = 5
+    main(wait_for)
 

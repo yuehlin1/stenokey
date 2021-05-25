@@ -3,6 +3,14 @@ stenokey
 
 Inspired by stenotype machine which supports simultaneous inputs, this project aims to create a customized keyboard input method, stenokey, which detects if you pressed certain combo keys and output the represented full text. For instance, typing "p" and "y" at the same time, it will automatically output "python".  
 
+## Example
+
+1. Typing your wanted combo keys in abbrev\steno_python.txt . The format is
+    combo_key full_text
+separated by a space
+
+2. Execute main.py ; for now it lasts for 50 seconds. # TODO to keep stenokey working, add --duration -1 
+
 <!--
 ## Features
 
