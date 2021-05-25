@@ -1,4 +1,4 @@
-from main import AbbrevLoader
+from abbrev_loader import AbbrevLoader
 
 al = AbbrevLoader()
 al.load()
