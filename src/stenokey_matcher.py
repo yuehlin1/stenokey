@@ -1,11 +1,9 @@
 import keyboard
 import logging
 
-# TODO when combining with liukey, steno doesn't always work
     
 class StenokeyMatcher:
     VALID_NAME = set('1234567890-=qwertyuiop[]asdfghjkl;\'zxcvbnm,./\\')
-    VALID_NAME.add("space")
     
     def __init__(self, steno_dict=None, loader=None, test_mode=False):
         self.event_queue = []
@@ -21,13 +19,18 @@ class StenokeyMatcher:
             logging.info("No loader or steno_dict is used")
     
     def __call__(self, kbe: keyboard.KeyboardEvent):
+        logging.debug("steno call")
+        logging.debug(self.event_queue)
         if kbe.name in self.VALID_NAME:
             self.event_queue.append(kbe)
+        else:
+            self.event_queue = []
             
         if self.get_n_key_pressed() == 0:
             msg = self.get_match()
             keyboard.write(msg)
             self.event_queue = []
+        
     
     def get_n_key_pressed(self):
         n = 0

@@ -1,7 +1,7 @@
 import time
 import keyboard
 import logging
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.WARNING)
 
 
 from abbrev_loader import AbbrevLoader
@@ -9,17 +9,12 @@ from stenokey_matcher import StenokeyMatcher
 from liukey_matcher import LiukeyMatcher
 
 
-# changelog : Liukey functionality removed for simplicity
 
 def main(wait_for=5):
     sm = StenokeyMatcher(loader=AbbrevLoader())
     lm = LiukeyMatcher(loader=AbbrevLoader())
-    # sm.hook()
-    # lm.hook()
-    def caller(kbe : keyboard.KeyboardEvent):
-        sm(kbe)
-        lm(kbe)
-    keyboard.hook(caller)
+    sm.hook()
+    lm.hook()
     time.sleep(wait_for)
     
     

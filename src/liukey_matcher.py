@@ -1,9 +1,6 @@
 import keyboard
 import logging
 
-
-# reset event queue if weird stuff is pressed
-# change event queue when backspace pressed
     
 class LiukeyMatcher:
     VALID_NAME = set('abcdefghijklmnopqrstuvwxyz,.')
@@ -36,7 +33,6 @@ class LiukeyMatcher:
         
         elif kbe.name == 'backspace':
             try:
-                logging.debug(f"popped last from {self.event_queue}")
                 self.event_queue.pop()
             except IndexError:
                 pass
