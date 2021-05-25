@@ -46,44 +46,21 @@ class AbbrevLoader():
         else:
             raise Exception("abbrev type not understood")
     
-
-class StenokeyMatcher():
-    def __init__(self, event_queue):
-        self.event_queue = event_queue
-        keys_pressed = sorted(set(map(lambda kbe: kbe.name, self.event_queue)))
-        self.abbrev = ''.join(keys_pressed)
-        
-    def get_backspaces(self):
-        logging.debug(f"{len(self.abbrev)} number of backspaces sent.")
-        return '\b'*len(self.abbrev)
     
-    def get_full_text(self, steno_dict):
-        return steno_dict[self.abbrev]
-        
-    def match(self, steno_dict):
-        abbrev = self.abbrev
-        if abbrev in steno_dict.keys():
-            return self.get_backspaces() + self.get_full_text(steno_dict)
-        else:
-            return ''
-
-    
-class KeyboardSituation:
+class StenokeyMatcher:
     VALID_NAME = set('1234567890-=qwertyuiop[]asdfghjkl;\'zxcvbnm,./\\')
     VALID_NAME.add("space")
-    STENO_DICT = dict()
     
-    def __init__(self):
+    def __init__(self, steno_dict):
         self.event_queue = []
+        self.STENO_DICT = steno_dict
     
     def __call__(self, kbe: keyboard.KeyboardEvent):
         if kbe.name in self.VALID_NAME:
             self.event_queue.append(kbe)
             
         if self.get_n_key_pressed() == 0:
-            sm = StenokeyMatcher(self.event_queue)
-            msg = sm.match(self.STENO_DICT)
-            # backspaces = sm.get_backspaces()
+            msg = self.match()
             keyboard.write(msg)
             self.event_queue = []
     
@@ -96,23 +73,25 @@ class KeyboardSituation:
                 n+=1
         return n
     
-def my_func(kbe):
-    print(kbe)
+    def match(self):
+        keys_pressed = sorted(set(map(lambda kbe: kbe.name, self.event_queue)))
+        abbrev = ''.join(keys_pressed)
+        if abbrev in self.STENO_DICT.keys():
+            return '\b'*len(abbrev) +  self.STENO_DICT[abbrev]
+        else:
+            return ''
         
 def main(wait_for=5):
     av = AbbrevLoader()
     av.load()
     STENO_DICT = av.steno_dict
-    ks = KeyboardSituation()
-    ks.STENO_DICT = STENO_DICT
+    sm = StenokeyMatcher(STENO_DICT)
+    keyboard.hook(sm)
+    
     time.sleep(wait_for)
     
 
 if __name__ == "__main__":
-    import sys
-    try:
-        wait_for = int(sys.argv[1])
-    except IndexError:
-        wait_for = 5
+    wait_for=5
     main(wait_for)
 
