@@ -3,6 +3,22 @@ stenokey
 
 Inspired by stenotype machine which supports simultaneous inputs, this project aims to create a customized keyboard input method, stenokey, which detects if you pressed certain combo keys and output the represented full text. For instance, typing "p" and "y" at the same time, it will automatically output "python".  
 
+## Definition
+
+1. liukey : a combination of letters typed sequentially, triggered with space. Example : 'c'+'q'+'o'+'space' gives '蝸'
+2. stenokey : a combination of letters typed pressed at the same time, triggered when all keys are released. Example : 'py' pressed at once and released at once, gives 'python' 
+
+## Usage
+
+1. Install the [keyboard PyPI package](https://pypi.python.org/pypi/keyboard/)
+2. Clone the current directory
+
+    git clone https://github.com/sqohapoe/stenokey
+
+3. Run main.py in the src folder. 
+4. To add your custom combo keys, go to abbrev directory and add a file starting with `liu` or with `steno` depending on the nature of the combo key. 
+
+
 ## Example
 
 1. Typing your wanted combo keys in abbrev\steno_python.txt . The format is
