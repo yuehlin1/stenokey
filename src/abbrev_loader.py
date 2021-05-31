@@ -20,7 +20,8 @@ class AbbrevLoader():
             elif file.startswith("liu"):
                 abbrev_type = "liu"
             else:
-                raise Exception("file abbrev_type not understood")
+               print("file abbrev_type not understood")
+               continue
             with open(file, "r", encoding='utf-8') as f:
                 for line in f:
                     self.add_abbrev(line, abbrev_type)
