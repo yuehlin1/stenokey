@@ -21,8 +21,8 @@ def main(wait_for=5):
     
 def main_gui():
     sm = StenokeyMatcher(loader=AbbrevLoader())
-    # lm = LiukeyMatcher(loader=AbbrevLoader())
-    app = App(sm=sm)
+    lm = LiukeyMatcher(loader=AbbrevLoader())
+    app = App(sm=sm, lm=lm)
     app.mainloop()
     
     

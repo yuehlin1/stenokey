@@ -1,0 +1,6 @@
+# This is a custom liukey file. 
+# Liukeys are triggered if they are pressed in order followed by a space. 
+# To add a new liukey, type {key_combo} {full_text} separated by a space. See the following example.
+# After setting, save and close the file. Press reload button. 
+cqo 蝸
+sj 牛

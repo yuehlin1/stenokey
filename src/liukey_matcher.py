@@ -9,6 +9,14 @@ class LiukeyMatcher:
         self.event_queue = []
         self.test_mode = test_mode # when in test mode, don't send backspaces
         
+        self._liu_dict = liu_dict
+        self._loader = loader
+        
+        self.load()
+    
+    def load(self):
+        loader = self._loader
+        liu_dict = self._liu_dict
         if loader is not None:
             loader.load()
             self.LIU_DICT = loader.liu_dict
@@ -57,5 +65,7 @@ class LiukeyMatcher:
             return ''
         
     def hook(self):
-        keyboard.hook(self)
+        self.handler = keyboard.hook(self)
         
+    def unhook(self):
+        keyboard.unhook(self.handler)
