@@ -27,6 +27,7 @@ class StenokeyMatcher:
             self.event_queue.append(kbe)
         else:
             self.event_queue = []
+            return None
             
         if self.get_n_key_pressed() == 0:
             if self.is_stenokey_pattern(): # to distinguish typing too fast and intentional combo
