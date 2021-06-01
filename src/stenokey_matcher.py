@@ -11,6 +11,16 @@ class StenokeyMatcher:
         self.event_queue = []
         self.test_mode = test_mode # when in test mode, don't send backspaces
         
+        self._steno_dict = steno_dict
+        self._loader = loader
+        
+        self.load()
+        
+        
+            
+    def load(self):
+        steno_dict = self._steno_dict
+        loader = self._loader
         if loader is not None:
             loader.load()
             self.STENO_DICT = loader.steno_dict
@@ -19,6 +29,7 @@ class StenokeyMatcher:
         else:
             self.STENO_DICT = dict()
             logging.info("No loader or steno_dict is used")
+            
     
     def __call__(self, kbe: keyboard.KeyboardEvent):
         logging.debug("steno call")
@@ -27,6 +38,7 @@ class StenokeyMatcher:
             self.event_queue.append(kbe)
         else:
             self.event_queue = []
+            return None
             
         if self.get_n_key_pressed() == 0:
             if self.is_stenokey_pattern(): # to distinguish typing too fast and intentional combo
@@ -105,5 +117,8 @@ class StenokeyMatcher:
             return ''
         
     def hook(self):
-        keyboard.hook(self)
+        self.handler = keyboard.hook(self)
+        
+    def unhook(self):
+        keyboard.unhook(self.handler)
         

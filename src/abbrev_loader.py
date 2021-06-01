@@ -24,6 +24,8 @@ class AbbrevLoader():
                continue
             with open(file, "r", encoding='utf-8') as f:
                 for line in f:
+                    if line.strip().startswith("#"): # this is a comment line, ignore it.
+                        continue
                     self.add_abbrev(line, abbrev_type)
         os.chdir(current_dir)
     
