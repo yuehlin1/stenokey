@@ -30,6 +30,8 @@ class AbbrevLoader():
     def add_abbrev(self, line:str, abbrev_type):
         line = line.replace('\n', '')
         pos = line.find(' ')
+        if pos == -1:
+            return None
         abbrev = line[:pos]
         full_form = line[pos+1:]
         abbrev = abbrev.lower()

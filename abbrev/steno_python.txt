@@ -2,4 +2,6 @@ rn return
 sf self
 py python
 ifn if __name__ == "__main__":
-itn def __init__(self,
+dfi def __init__(self,
+esp     
+pt print
