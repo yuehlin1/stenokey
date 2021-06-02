@@ -8,23 +8,26 @@ logging.basicConfig(level=logging.WARNING)
 from abbrev_loader import AbbrevLoader
 from stenokey_matcher import StenokeyMatcher
 from liukey_matcher import LiukeyMatcher
+from manager import CombokeyToggleManager
 
-from gui import App
+from gui import GUI
 
 
 
 def main(wait_for=5):
     sm = StenokeyMatcher(loader=AbbrevLoader())
     lm = LiukeyMatcher(loader=AbbrevLoader())
-    sm.hook()
-    lm.hook()    
+    mng = CombokeyToggleManager(sm, lm, root=None)
+    mng.toggle_liu()
+    mng.toggle_liu()
     time.sleep(wait_for)
     
 def main_gui():
     sm = StenokeyMatcher(loader=AbbrevLoader())
     lm = LiukeyMatcher(loader=AbbrevLoader())
-    app = App(sm=sm, lm=lm)
-    keyboard.add_hotkey("ctrl+space", app.toggle_topmost)
+    mng = CombokeyToggleManager(sm, lm)
+    app = GUI(mng)
+    app.toggle_show_gui_hotkey_set("ctrl+space")
     app.mainloop()
     
 if __name__ == "__main__":

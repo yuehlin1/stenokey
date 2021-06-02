@@ -2,34 +2,30 @@ import tkinter as tk
 import os
 import sys
 
-class App(tk.Tk):
-    def __init__(self, sm, lm):
+from manager import CombokeyToggleManager
+import keyboard
+
+class GUI(tk.Tk):
+    def __init__(self, mng, how_to_hide='ctrl+space'):
         super().__init__()
-        self.sm = sm
-        self.lm = lm
-        self.stenokey_on = tk.BooleanVar()
-        self.liukey_on = tk.BooleanVar()
-        
+        self.mng: CombokeyToggleManager = mng
         
         # stenokey button
-        self.stenokey_button = tk.Checkbutton(self, text='enable stenokey', 
-                       variable=self.stenokey_on, onvalue=True, offvalue=False, 
-                       command=self.toggle_steno)
+        self.stenokey_button = tk.Checkbutton(self, text="enable stenokey", 
+                                              command=mng.toggle_steno)
         self.stenokey_button.pack()
-        self.stenokey_button.invoke() # so that once the program started, stenokey is on
+        self.stenokey_button.invoke() 
+        # mng.toggle_steno will be called, 
+        # so that once the program started, stenokey is on
         
         # liukey button
-        self.liukey_button = tk.Checkbutton(self, text='enable liukey', 
-                       variable=self.liukey_on, onvalue=True, offvalue=False, 
-                       command=self.toggle_liu)
+        self.liukey_button = tk.Checkbutton(self, text="enable liukey", 
+                                              command=mng.toggle_liu)
         self.liukey_button.pack()
-        self.liukey_button.invoke() # so that once the program started, liukey is on
-        
-        # view stenokey button
-        # self.view_stenokey_button = tk.Button(self, text="view stenokeys", 
-        #                                       command=self.open_text_file)
-        # self.view_stenokey_button.pack()
-        
+        self.liukey_button.invoke() 
+        # mng.toggle_liu will be called
+        # so that once the program started, liukey is on
+             
         # edit custom combokey button
         self.custom_combokey_button = tk.Button(self, text="custom combokeys", 
                                               command=self.open_text_file)
@@ -37,26 +33,12 @@ class App(tk.Tk):
     
         # reload button
         self.reload_button = tk.Button(self, text="reload",
-                                        command=self.reload)
+                                        command=mng.reload)
         self.reload_button.pack()
     
         self.window_setting()
         
-    def reload(self):
-        self.sm.load()
-        self.lm.load()
-        
-    def toggle_steno(self):
-        if self.stenokey_on.get():
-            self.sm.hook()
-        else:
-            self.sm.unhook()
-            
-    def toggle_liu(self):
-        if self.liukey_on.get():
-            self.lm.hook()
-        else:
-            self.lm.unhook()
+
     
     def open_text_file(self):
         # TODO pop out a window to choose which file to view
@@ -70,33 +52,22 @@ class App(tk.Tk):
         else:
             print("os other than win32 is not supported yet")
             
-    def toggle_topmost(self):
-        value_to_set = not self.wm_attributes("-topmost")
-        print(f"{value_to_set=}")
-        if value_to_set == 1:
-            self.wm_attributes("-topmost", 1)
-            self.deiconify()
-            self.recover_state()
-        else:
+    def toggle_show_gui(self):
+        """change topmost attributes, determinating whether the gui 
+        should be always on top of other os apps
+        iconify and deiconify do the trick of showing or hiding the app
+        When the gui is hidden, steno and liukey should be deactivated
+        When the gui is shown again, they should be reactivated
+        """
+        value_to_set = not self.wm_attributes("-topmost")      
+        if value_to_set == 0: # should be the case in the first call
             self.wm_attributes("-topmost", 0)
             self.iconify()
-            self.deselect_all_and_record_state()
-            
-    def deselect_all_and_record_state(self):
-        self.stenokey_was_on = self.stenokey_on.get()
-        self.liukey_was_on = self.liukey_on.get()
-        if self.stenokey_was_on:
-            self.stenokey_button.invoke()
-        if self.liukey_was_on:
-            self.liukey_button.invoke()
-        print("steno and liu key deselected")
-    
-    def recover_state(self):
-        if self.stenokey_was_on:
-            self.stenokey_button.invoke()
-        if self.liukey_was_on:
-            self.liukey_button.invoke()
-        
+            self.mng.deactivate()
+        else:
+            self.wm_attributes("-topmost", 1)
+            self.deiconify()
+            self.mng.reactivate()
         
     def window_setting(self):
         # TODO make it work on other OS
@@ -106,6 +77,10 @@ class App(tk.Tk):
         else:
             print("os other than win32 is not supported yet. \
                   The window may not be on topmost")
+            
+    def toggle_show_gui_hotkey_set(self, hotkey="ctrl+space"):
+        keyboard.add_hotkey(hotkey, self.toggle_show_gui)
+
         
 
 if __name__ == "__main__":

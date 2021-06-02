@@ -6,7 +6,7 @@ import logging
     
 class StenokeyMatcher:
     VALID_NAME = set('1234567890-=qwertyuiop[]asdfghjkl;\'zxcvbnm,./\\')
-    THRESHOLD_OVERLAP_2 = 0.6
+    THRESHOLD_OVERLAP_2 = 0.8
     THRESHOLD_OVERLAP_3 = 0.2
     
     def __init__(self,

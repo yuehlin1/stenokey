@@ -3,3 +3,5 @@
 # To add a new stenokey, type {key_combo} {full_text} separated by a space. See the following example.
 # After setting, save and close the file. Press reload button. 
 ex example
+sf9 (self):
+te test
