@@ -3,9 +3,6 @@ import os
 
 class AbbrevLoader():
     "load abbrev files in the directory called abbrev"
-    # TODO decide whether stock every word into a dictionary(memory burden), 
-    # or return an iterable(I/O cost)
-    
     def __init__(self):
         self.liu_dict = dict()
         self.steno_dict = dict()
@@ -32,7 +29,7 @@ class AbbrevLoader():
     def add_abbrev(self, line:str, abbrev_type):
         line = line.replace('\n', '')
         pos = line.find(' ')
-        if pos == -1:
+        if pos == -1: # if no space in the line, then it's not an (abbrev, full_text) pair
             return None
         abbrev = line[:pos]
         full_form = line[pos+1:]

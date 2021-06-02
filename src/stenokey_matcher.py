@@ -1,3 +1,5 @@
+from typing import List, Mapping, Optional
+from abbrev_loader import AbbrevLoader
 import keyboard
 import logging
 
@@ -7,8 +9,11 @@ class StenokeyMatcher:
     THRESHOLD_OVERLAP_2 = 0.6
     THRESHOLD_OVERLAP_3 = 0.2
     
-    def __init__(self, steno_dict=None, loader=None, test_mode=False):
-        self.event_queue = []
+    def __init__(self,
+                 steno_dict: Optional[Mapping[str, str]]=None,
+                 loader: Optional[AbbrevLoader]=None,
+                 test_mode=False):
+        self.event_queue: List[keyboard.KeyboardEvent] = []
         self.test_mode = test_mode # when in test mode, don't send backspaces
         
         self._steno_dict = steno_dict
@@ -16,9 +21,9 @@ class StenokeyMatcher:
         
         self.load()
         
-        
             
     def load(self):
+        "update the STENO_DICT with either given steno_dict or a loader"
         steno_dict = self._steno_dict
         loader = self._loader
         if loader is not None:
@@ -32,6 +37,7 @@ class StenokeyMatcher:
             
     
     def __call__(self, kbe: keyboard.KeyboardEvent):
+        "called each time a keyboard event is detected, if hooked"
         logging.debug("steno call")
         logging.debug(self.event_queue)
         if kbe.name in self.VALID_NAME:
@@ -40,13 +46,13 @@ class StenokeyMatcher:
             self.event_queue = []
             return None
             
-        if self.get_n_key_pressed() == 0:
-            if self.is_stenokey_pattern(): # to distinguish typing too fast and intentional combo
+        if self.event_queue != [] and self.get_n_key_pressed() == 0:
+            if self.is_not_accidental(): # to distinguish typing too fast and intentional combo
                 msg = self.get_match()
                 keyboard.write(msg)
             self.event_queue = []
     
-    def is_stenokey_pattern(self):
+    def is_not_accidental(self):
         if not self.all_get_pressed_at_the_same_time():
             return False
         elif len(self.event_queue) == 4:
@@ -117,8 +123,13 @@ class StenokeyMatcher:
             return ''
         
     def hook(self):
+        """calls keyboard.hook with self, which is a callable. 
+        Each time a keyboard event (any key pressed/released) is detected,
+        the callable will be invoked with KeyboardEvent object"""
+        logging.debug("stenokey matcher hooked")
         self.handler = keyboard.hook(self)
         
     def unhook(self):
+        logging.debug("stenokey matcher unhooked")
         keyboard.unhook(self.handler)
         
