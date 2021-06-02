@@ -1,5 +1,6 @@
 import tkinter as tk
 import os
+import sys
 
 class App(tk.Tk):
     def __init__(self, sm, lm):
@@ -59,20 +60,26 @@ class App(tk.Tk):
     
     def open_text_file(self):
         # TODO pop out a window to choose which file to view
-        current = os.getcwd()
-        os.chdir("..")
-        os.chdir("abbrev")
-        os.system("start notepad steno_custom.txt")
-        # os.system("start notepad liu_cqosj.txt")
-        os.chdir(current)
+        if sys.platform == 'win32':
+            current = os.getcwd()
+            os.chdir("..")
+            os.chdir("abbrev")
+            os.system("start notepad steno_custom.txt")
+            # os.system("start notepad liu_cqosj.txt")
+            os.chdir(current)
+        else:
+            print("os other than win32 is not supported yet")
         
         
     def window_setting(self):
         # TODO make it work on other OS
-        self.attributes('-toolwindow', True)
-        self.wm_attributes("-topmost", 1)
+        if sys.platform == 'win32':
+            self.attributes('-toolwindow', True)
+            self.wm_attributes("-topmost", 1)
+        else:
+            print("os other than win32 is not supported yet. \
+                  The window may not be on topmost")
         
 
 if __name__ == "__main__":
-    app = App()
-    app.mainloop()
+    pass
