@@ -24,7 +24,7 @@ def main_gui():
     sm = StenokeyMatcher(loader=AbbrevLoader())
     lm = LiukeyMatcher(loader=AbbrevLoader())
     app = App(sm=sm, lm=lm)
-    # keyboard.add_hotkey('shift', app.stenokey_button.invoke)
+    keyboard.add_hotkey("ctrl+space", app.toggle_topmost)
     app.mainloop()
     
 if __name__ == "__main__":
