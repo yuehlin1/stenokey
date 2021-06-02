@@ -63,7 +63,7 @@ class App(tk.Tk):
         os.chdir("..")
         os.chdir("abbrev")
         os.system("start notepad steno_custom.txt")
-        os.system("start notepad liu_cqosj.txt")
+        # os.system("start notepad liu_cqosj.txt")
         os.chdir(current)
         
         
