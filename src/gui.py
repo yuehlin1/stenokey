@@ -20,8 +20,9 @@ class GUI(tk.Tk):
         
         
         self.sensitivity_entry = tk.Entry(self)
+        self.sensitivity_entry.insert(0, "20")
         self.sensitivity_entry.pack()
-        self.sensitivity_button = tk.Button(self, text='Sensitivy (0-100)', 
+        self.sensitivity_button = tk.Button(self, text='Set sensitivy (0-100)', 
                                             command=self.set_sensitivity)
         self.sensitivity_button.pack()
         
