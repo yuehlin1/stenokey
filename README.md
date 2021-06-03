@@ -1,31 +1,37 @@
 stenokey
 ========
 
-Inspired by stenotype machine which supports simultaneous inputs, this project aims to create a customized keyboard input method, stenokey, which detects if you pressed certain combo keys and output the represented full text. For instance, typing "p" and "y" at the same time, it will automatically output "python".  
+Inspired by stenotype machine which supports simultaneous inputs, this project aims to create a customized keyboard input method, stenokey, which detects if you pressed certain combo keys and output the represented full text. For instance, typing "p" and "y" at the same time, it will automatically output "python".
+Another part is inspired by a legacy shape-based chinese input method -- [boshiamy](https://www.boshiamy.com) invented by 劉重次(liu chong-ci), after whom liukey is named. Boshiamy detects a series of letter inputs and, triggered by space, turns into a character. For instance, typing 'c'+'q'+'o'+'space' gives '蝸'.
+
 
 ## Definition
 
 1. liukey : a combination of letters typed sequentially, triggered with space. Example : 'c'+'q'+'o'+'space' gives '蝸'
 2. stenokey : a combination of letters typed pressed at the same time, triggered when all keys are released. Example : 'py' pressed at once and released at once, gives 'python' 
 
-## Usage
+## Package dependency
 
-1. Install the [keyboard PyPI package](https://pypi.python.org/pypi/keyboard/)
-2. Clone the current directory
+1. Make sure your python version > 3.8
+2. Install the [keyboard PyPI package](https://pypi.python.org/pypi/keyboard/)
+
+## Usage
+1. Clone the current directory
 
     git clone https://github.com/sqohapoe/stenokey
 
-3. Run main.py in the src folder. 
-4. To add your custom combo keys, go to abbrev directory and add a file starting with `liu` or with `steno` depending on the nature of the combo key. 
+2. Run main.py in the src folder. 
 
 
-## Example
+## How to add custom stenokeys and liukeys
+1. Go to abbrev directory. 
+2. Create a txt file starting with `liu` or with `steno`, or open an existing one.
+3. Each new line, you start with the combo_key followed by a space followed by the full_text. 
+```
+te test
+```
+4. Alternatively, you can follow the instruction on the GUI(graphic user interface)
 
-1. Typing your wanted combo keys in abbrev\steno_python.txt . The format is
-    combo_key full_text
-separated by a space
-
-2. Execute main.py ; for now it lasts for 50 seconds. # TODO to keep stenokey working, add --duration -1 
 
 <!--
 ## Features
