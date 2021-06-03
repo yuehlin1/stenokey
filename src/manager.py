@@ -9,6 +9,10 @@ class CombokeyToggleManager():
         self.sm.load()
         self.lm.load()
         
+    def set_sensitivity(self, sensitivity_number):
+        assert 0<= sensitivity_number <= 100
+        self.sm.THRESHOLD_OVERLAP_2 = (100-sensitivity_number)/100
+        
     def toggle_steno(self):
         self.stenokey_on = not self.stenokey_on
         if self.stenokey_on:
