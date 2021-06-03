@@ -1,8 +1,9 @@
 stenokey
 ========
 
-Inspired by stenotype machine which supports simultaneous inputs, this project aims to create a customized keyboard input method, stenokey, which detects if you pressed certain combo keys and output the represented full text. For instance, typing "p" and "y" at the same time, it will automatically output "python".
-Another part is inspired by a legacy shape-based chinese input method -- [boshiamy](https://www.boshiamy.com) invented by 劉重次(liu chong-ci), after whom liukey is named. Boshiamy detects a series of letter inputs and, triggered by space, turns into a character. For instance, typing 'c'+'q'+'o'+'space' gives '蝸'.
+Inspired by stenotype machine which supports simultaneous inputs, this project aims to create a customized keyboard input method, stenokey, supporting simultaneous keyboard hits.
+
+Another part is inspired by a legacy shape-based chinese input method -- [boshiamy](https://www.boshiamy.com) invented by 劉重次(liu chong-ci), after whom liukey is named. 
 
 
 ## Definition
