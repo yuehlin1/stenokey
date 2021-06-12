@@ -18,13 +18,12 @@ class GUI(tk.Tk):
         # mng.toggle_steno will be called, 
         # so that once the program started, stenokey is on
         
+        tk.Label(self, text='stenokey sensitivity').pack()
         
-        self.sensitivity_entry = tk.Entry(self)
-        self.sensitivity_entry.insert(0, "20")
-        self.sensitivity_entry.pack()
-        self.sensitivity_button = tk.Button(self, text='Set sensitivy (0-100)', 
-                                            command=self.set_sensitivity)
-        self.sensitivity_button.pack()
+        self.sensitivity_scale = tk.Scale(self, orient="horizontal", 
+                                          command=self.set_sensitivity_with_scale)
+        self.sensitivity_scale.set(20)
+        self.sensitivity_scale.pack()
         
         # liukey button
         self.liukey_button = tk.Checkbutton(self, text="enable liukey", 
@@ -54,6 +53,10 @@ class GUI(tk.Tk):
             print("Sensitivity should be an integer")
             return None
         self.mng.set_sensitivity(sensitivity_number)
+        
+    def set_sensitivity_with_scale(self, sensitivity_number):
+        self.mng.set_sensitivity(int(sensitivity_number))
+        # self.sensitivity_label.config(text=f"sensitivity={sensitivity_number}")
         
 
     
