@@ -4,6 +4,7 @@ amg À
 ea é
 eg è
 ag à
+ou où
 
 ac â
 ic î
@@ -11,6 +12,8 @@ uc û
 ec ê
 oc ô
 edp ë
+cs ç
+
 
 mt ment
 etr être
