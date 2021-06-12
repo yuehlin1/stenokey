@@ -9,6 +9,7 @@ from abbrev_loader import AbbrevLoader
 from stenokey_matcher import StenokeyMatcher
 from liukey_matcher import LiukeyMatcher
 from manager import CombokeyToggleManager
+from single_hotkey import SingleHotkey
 
 from gui import GUI
 
@@ -22,22 +23,15 @@ def main(wait_for=5):
     mng.toggle_liu()
     time.sleep(wait_for)
     
-class StenoHotkeyManager:
-    def __init__(self, app):
-        self.app = app
-        
-    def __call__(self, kbe):
-        if kbe.name == "shift" and kbe.event_type == "up": # if shift is the only one being pressed
-            return self.app.stenokey_button.invoke()
+
     
 def main_gui():
     sm = StenokeyMatcher(loader=AbbrevLoader())
     lm = LiukeyMatcher(loader=AbbrevLoader())
-    mng = CombokeyToggleManager(sm, lm)
-    app = GUI(mng)
-    shm = StenoHotkeyManager(app)
-    keyboard.hook(shm)
-    
+    mng = CombokeyToggleManager(sm, lm) # manager controls sm, lm
+    app = GUI(mng) # app controls manager
+    shm = SingleHotkey(hotkey="shift", onclick=app.stenokey_button.invoke) # hotkey controls app
+    shm.hook()
     app.toggle_show_gui_hotkey_set("ctrl+space")
     
     

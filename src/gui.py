@@ -58,6 +58,8 @@ class GUI(tk.Tk):
         self.mng.set_sensitivity(int(sensitivity_number))
         # self.sensitivity_label.config(text=f"sensitivity={sensitivity_number}")
         
+        
+        
 
     
     def open_text_file(self):
