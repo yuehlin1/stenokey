@@ -3,7 +3,9 @@ import logging
 
     
 class LiukeyMatcher:
-    VALID_NAME = set('abcdefghijklmnopqrstuvwxyz,.')
+    VALID_NAME = set('abcdefghijklmnopqrstuvwxyz,.;123456789')
+    USEFUL_KEY = {"space", "backspace"}
+    # TODO : enter key
     
     def __init__(self, liu_dict=None, loader=None, test_mode=False):
         self.event_queue = []
@@ -66,6 +68,12 @@ class LiukeyMatcher:
         
     def hook(self):
         self.handler = keyboard.hook(self)
+        # self.handler = {}
+        # for key in self.VALID_NAME | self.USEFUL_KEY:
+        #     self.handler[key] = keyboard.hook_key(key, self)
+        
         
     def unhook(self):
+        # for key in self.VALID_NAME | self.USEFUL_KEY:
+        #     keyboard.unhook_key(key)
         keyboard.unhook(self.handler)

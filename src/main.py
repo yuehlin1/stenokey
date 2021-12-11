@@ -19,7 +19,7 @@ def main(wait_for=5):
     sm = StenokeyMatcher(loader=AbbrevLoader())
     lm = LiukeyMatcher(loader=AbbrevLoader())
     mng = CombokeyToggleManager(sm, lm)
-    mng.toggle_liu()
+    mng.toggle_steno()
     mng.toggle_liu()
     time.sleep(wait_for)
     
@@ -33,6 +33,7 @@ def main_gui():
     shm = SingleHotkey(hotkey="shift", onclick=app.stenokey_button.invoke) # hotkey controls app
     shm.hook()
     app.toggle_show_gui_hotkey_set("ctrl+space")
+    keyboard.add_hotkey("alt+`", app.liukey_button.invoke)
     
     
     

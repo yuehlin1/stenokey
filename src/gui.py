@@ -68,7 +68,7 @@ class GUI(tk.Tk):
             current = os.getcwd()
             os.chdir("..")
             os.chdir("abbrev")
-            os.system("start notepad steno_custom.txt")
+            os.system("start .")
             # os.system("start notepad liu_cqosj.txt")
             os.chdir(current)
         else:

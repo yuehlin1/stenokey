@@ -1,1 +1,4 @@
 np notepad
+wr e
+ck g
+cx h
