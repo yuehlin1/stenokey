@@ -9,6 +9,7 @@ class VimiumMatcher:
     
     def __init__(self):
         self.load()
+        self.ctrl = False
     
     def load(self):
         pass
@@ -21,9 +22,17 @@ class VimiumMatcher:
         # TODO alternative for backspacing. 
         # TODO handle directional keys. Typing 'up' not only moves mouse but also acts as keyboard input. 
         
-        # grid2matrix = {"q":(0, 0), "w":(1, 0)}
+        
+        if kbe.name == 'ctrl':
+            if kbe.event_type == 'down':
+                self.ctrl = True
+            if kbe.event_type == 'up':
+                self.ctrl = False
         
         if kbe.event_type != "down":
+            return None
+        
+        if self.ctrl:
             return None
         
         grids = 'qwerasdfzxcv'
@@ -39,16 +48,16 @@ class VimiumMatcher:
             ag.moveTo(*destination, duration=0.2)
             
         
-        scroll_dict = dict(zip(list("yhtg5b"), [50, -50, 250, -250, 1000, -1000] ))
+        scroll_dict = dict(zip(list("yhtg"), [50, -50, 250, -250] ))
 
         
-        if kbe.name.lower() not in "yhtg5b":
+        if kbe.name not in "yhtg":
             pass
         else:
             keyboard.send('\b')
-            ag.scroll(scroll_dict[kbe.name.lower()])
-
+            ag.scroll(scroll_dict[kbe.name])
             
+
         if kbe.name.lower()  == 'u'  :
             keyboard.send('\b')
             ag.click()
@@ -59,16 +68,25 @@ class VimiumMatcher:
         
         
         STEP = 100
+        is_letter = False
         if kbe.name in list("IJKL"):
             keyboard.send('\b')
+            is_letter = True
         if kbe.name in ['up', 'I']  :
             ag.moveRel(0, -1*STEP, duration=0)
+            keyboard.send('down') if not is_letter else None
+            
         elif kbe.name in ['down', "K"]  :
             ag.moveRel(0, 1*STEP, duration=0)
+            keyboard.send('up') if not is_letter else None
+
         elif kbe.name in ['left', "J"]  :
             ag.moveRel(-1*STEP, 0, duration=0)
+            keyboard.send('right') if not is_letter else None
+
         elif kbe.name in ['right', "L"]  :
             ag.moveRel(1*STEP, 0, duration=0)
+            keyboard.send('left') if not is_letter else None
         
             
             
@@ -79,10 +97,8 @@ class VimiumMatcher:
             ag.moveRel(0, -1*STEP, duration=0)
         elif kbe.name  == 'k'  :
             ag.moveRel(0, 1*STEP, duration=0)
-            
         elif kbe.name == 'j'  :
             ag.moveRel(-1*STEP, 0, duration=0)
-
         elif kbe.name == 'l'  :
             ag.moveRel(1*STEP, 0, duration=0)
             

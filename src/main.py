@@ -37,7 +37,7 @@ def main_gui():
     # shm = SingleHotkey(hotkey="shift", onclick=app.stenokey_button.invoke) # hotkey controls app
     # shm.hook()
     
-    # TODO: use better hotkeys 
+    # TODO: use better hotkeys
     # app.toggle_show_gui_hotkey_set("alt+`")
     # keyboard.add_hotkey("alt+`", app.liukey_button.invoke)
     keyboard.add_hotkey("esc", app.hide)
