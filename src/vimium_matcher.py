@@ -73,20 +73,18 @@ class VimiumMatcher:
             
             
         STEP = 10
+        if kbe.name in "ijkl":
+            keyboard.send("\b")
         if kbe.name  == 'i'  :
             ag.moveRel(0, -1*STEP, duration=0)
-            keyboard.send("\b")
         elif kbe.name  == 'k'  :
             ag.moveRel(0, 1*STEP, duration=0)
-            keyboard.send("\b")
             
         elif kbe.name == 'j'  :
             ag.moveRel(-1*STEP, 0, duration=0)
-            keyboard.send("\b")
 
         elif kbe.name == 'l'  :
             ag.moveRel(1*STEP, 0, duration=0)
-            keyboard.send("\b")
             
             
         
