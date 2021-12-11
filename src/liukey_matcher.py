@@ -77,3 +77,5 @@ class LiukeyMatcher:
         # for key in self.VALID_NAME | self.USEFUL_KEY:
         #     keyboard.unhook_key(key)
         keyboard.unhook(self.handler)
+        
+    

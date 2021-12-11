@@ -1,6 +1,8 @@
 import time
 import keyboard
 import logging
+
+from vimium_matcher import VimiumMatcher
 logging.basicConfig(level=logging.WARNING)
 # logging.basicConfig(level=logging.DEBUG)
 
@@ -8,6 +10,7 @@ logging.basicConfig(level=logging.WARNING)
 from abbrev_loader import AbbrevLoader
 from stenokey_matcher import StenokeyMatcher
 from liukey_matcher import LiukeyMatcher
+from vimium_matcher import VimiumMatcher
 from manager import CombokeyToggleManager
 from single_hotkey import SingleHotkey
 
@@ -28,12 +31,18 @@ def main(wait_for=5):
 def main_gui():
     sm = StenokeyMatcher(loader=AbbrevLoader())
     lm = LiukeyMatcher(loader=AbbrevLoader())
-    mng = CombokeyToggleManager(sm, lm) # manager controls sm, lm
+    vm = VimiumMatcher()
+    mng = CombokeyToggleManager(sm, lm, vm) # manager controls sm, lm
     app = GUI(mng) # app controls manager
-    shm = SingleHotkey(hotkey="shift", onclick=app.stenokey_button.invoke) # hotkey controls app
-    shm.hook()
-    app.toggle_show_gui_hotkey_set("ctrl+space")
-    keyboard.add_hotkey("alt+`", app.liukey_button.invoke)
+    # shm = SingleHotkey(hotkey="shift", onclick=app.stenokey_button.invoke) # hotkey controls app
+    # shm.hook()
+    
+    # TODO: use better hotkeys 
+    # app.toggle_show_gui_hotkey_set("alt+`")
+    # keyboard.add_hotkey("alt+`", app.liukey_button.invoke)
+    keyboard.add_hotkey("esc", app.hide)
+    keyboard.add_hotkey("alt+`", app.reveal)
+    
     
     
     

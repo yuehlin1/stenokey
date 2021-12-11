@@ -7,14 +7,24 @@ import keyboard
 
 class GUI(tk.Tk):
     def __init__(self, mng, how_to_hide='ctrl+space'):
+        
+        self.is_revealed = True
+        
         super().__init__()
         self.mng: CombokeyToggleManager = mng
+        
+        
+        # vimium button
+        self.vimium_button = tk.Checkbutton(self, text="enable vimium", 
+                                              command=mng.toggle_vimium)
+        self.vimium_button.pack()
+        self.vimium_button.invoke()
         
         # stenokey button
         self.stenokey_button = tk.Checkbutton(self, text="enable stenokey", 
                                               command=mng.toggle_steno)
         self.stenokey_button.pack()
-        self.stenokey_button.invoke() 
+        # self.stenokey_button.invoke() 
         # mng.toggle_steno will be called, 
         # so that once the program started, stenokey is on
         
@@ -29,7 +39,7 @@ class GUI(tk.Tk):
         self.liukey_button = tk.Checkbutton(self, text="enable liukey", 
                                               command=mng.toggle_liu)
         self.liukey_button.pack()
-        self.liukey_button.invoke() 
+        # self.liukey_button.invoke() 
         # mng.toggle_liu will be called
         # so that once the program started, liukey is on
              
@@ -73,7 +83,17 @@ class GUI(tk.Tk):
             os.chdir(current)
         else:
             print("os other than win32 is not supported yet")
-            
+    
+    def hide(self):
+        if self.is_revealed:
+            self.toggle_show_gui()
+            self.is_revealed = False
+    
+    def reveal(self):
+        if not self.is_revealed:
+            self.toggle_show_gui()
+            self.is_revealed = True
+
     def toggle_show_gui(self):
         """change topmost attributes, determinating whether the gui 
         should be always on top of other os apps

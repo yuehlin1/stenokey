@@ -6,3 +6,5 @@ ex example
 sf9 (self):
 te test
 eu €
+jn jenny
+sp shipai station
